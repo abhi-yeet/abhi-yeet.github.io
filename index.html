@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abhijit — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #fbd44b;
+      color: #000;
+      line-height: 1.6;
+    }
+
+    header {
+      text-align: center;
+      padding: 4rem 1rem;
+    }
+
+    header img {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 50%;
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      font-size: 4rem;
+      font-weight: 900;
+      text-shadow: 2px 2px #00000010;
+      margin-top: 1rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 3rem 0 1rem;
+      text-align: center;
+      text-shadow: 1px 1px #00000020;
+    }
+
+    section {
+      max-width: 900px;
+      margin: auto;
+      padding: 2rem;
+    }
+
+    p, li, a {
+      font-size: 1.1rem;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul li {
+      margin: 0.5rem 0;
+    }
+
+    a {
+      color: #000;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    /* GALLERY SECTION */
+    .gallery-section {
+      background-color: #f1f1f1;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    .photo-gallery {
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .gallery-photo {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      animation: slideUp 1s ease-out forwards;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .gallery-photo:nth-child(1) {
+      animation-delay: 0.2s;
+    }
+    .gallery-photo:nth-child(2) {
+      animation-delay: 0.4s;
+    }
+    .gallery-photo:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+
+    @keyframes slideUp {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="photos/me.jpeg" alt="Abhijit's Profile Picture" />
+    <h1>Abhijit</h1>
+    <p style="font-weight: bold;">Creative Technologist & Developer</p>
+  </header>
+
+  <section id="about">
+    <h2>About Me</h2>
+    <p>Hey there! I'm Abhijit, a passionate developer born in 2006 and driven by curiosity and creativity. I'm deeply interested in full-stack web development, embedded systems, and anything that pushes the boundaries of tech. I'm currently working on exciting multiplayer C-based game projects using Raylib and sockets.</p>
+  </section>
+
+  <section id="education">
+    <h2>Education & Achievements</h2>
+    <p>I'm pursuing my education in computer science and tech-related fields, constantly building my skills through hands-on projects and challenges. I've excelled academically and participated in various competitions and tech fests. I've also worked with platforms like ESP32, MongoDB Atlas, and more.</p>
+  </section>
+
+  <section id="skills">
+    <h2>Technical Skills</h2>
+    <ul>
+      <li><strong>Advanced:</strong> C, WebSockets, Raylib, HTML, CSS, JS</li>
+      <li><strong>Intermediate:</strong> MongoDB, ESP32, Bluetooth, Wi-Fi protocols</li>
+      <li><strong>Basic:</strong> React, Node.js, SQL</li>
+    </ul>
+  </section>
+
+  <section id="cv">
+    <h2>My CV</h2>
+    <p>Click here to view/download my CV: 
+      <a href="Abhijit_CV.pdf" target="_blank">Download CV</a>
+    </p>
+  </section>
+
+  <section class="gallery-section">
+    <h2>Glimpses from My Place</h2>
+    <div class="photo-gallery">
+      <img src="image.png" alt="Local Image 1" class="gallery-photo" />
+      <img src="image.png" alt="Local Image 2" class="gallery-photo" />
+      <img src="image.png" alt="Local Image 3" class="gallery-photo" />
+    </div>
+  </section>
+
+</body>
+</html>
