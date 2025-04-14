@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Abhijit Suhas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      background: #0f0f0f;
+      margin: 0;
+      font-family: 'Space Grotesk', sans-serif;
+      color: white;
+      scroll-behavior: smooth;
+      line-height: 1.6;
+    }
+
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding-left: 0;
+    }
+
+    .profile-img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 3px solid #08fdd8;
+      transition: all 0.3s ease;
+      margin-bottom: 30px;
+      box-shadow: 0 0 20px rgba(8, 253, 216, 0.3);
+      object-fit: cover;
+    }
+
+    .console-container {
+      font-size: 4em;
+      height: 100px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+    }
+
+    .console-underscore {
+      display: inline-block;
+      position: relative;
+      top: -0.14em;
+      left: 10px;
+    }
+
+    nav {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 30px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+    }
+
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 1.5em;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #08fdd8;
+    }
+
+    section {
+      padding: 100px 60px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(4px);
+    }
+
+    section h2 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: #08fdd8;
+    }
+
+    .hidden {
+      opacity: 0;
+    }
+
+    /* About Section Styles */
+    .about-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-profile-image {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 8px;
+      transform: perspective(1000px) rotateY(-5deg);
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      border: 1px solid rgba(8, 253, 216, 0.1);
+    }
+
+    .about-profile-image:hover {
+      transform: perspective(1000px) rotateY(0deg) translateZ(20px);
+      box-shadow: 0 30px 60px rgba(8, 253, 216, 0.15);
+    }
+
+    .about-content {
+      position: relative;
+    }
+
+    .about-text {
+      font-size: 1.1rem;
+      color: #c0c0c0;
+      margin-bottom: 2rem;
+      position: relative;
+      padding-left: 2rem;
+      border-left: 2px solid #08fdd8;
+    }
+
+    .about-text::before {
+      content: '>';
+      position: absolute;
+      left: -1rem;
+      color: #08fdd8;
+      font-weight: 500;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease-out forwards;
+      opacity: 0;
+    }
+
+    /* Gallery Section Styles */
+    .gallery-container {
+      max-width: 1000px;
+      height: 562px; /* Fixed height for 16:9 aspect ratio with 1000px width */
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(8, 253, 216, 0.2);
+    }
+
+    .gallery-slide {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    object-fit: cover; /* Scales image to cover container, may crop */
+    object-position: center; /* Centers the image */
+}
+
+    .gallery-slide.active {
+      opacity: 1;
+    }
+
+    .gallery-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      color: #e0e0e0;
+      transform: translateY(100%);
+      transition: transform 0.5s ease;
+      border-top: 1px solid rgba(8, 253, 216, 0.3);
+    }
+
+    .gallery-container:hover .gallery-caption {
+      transform: translateY(0);
+    }
+
+    .gallery-caption h3 {
+      color: #08fdd8;
+      margin: 0 0 10px 0;
+    }
+
+    .gallery-caption p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
+
+    .gallery-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.6);
+      color: #08fdd8;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(8, 253, 216, 0.2);
+    }
+
+    .gallery-btn:hover {
+      background: rgba(8, 253, 216, 0.2);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .gallery-btn.prev {
+      left: 20px;
+    }
+
+    .gallery-btn.next {
+      right: 20px;
+    }
+
+    .gallery-dots {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    .gallery-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .gallery-dot.active {
+      background: #08fdd8;
+      transform: scale(1.2);
+    }
+
+    @media (max-width: 768px) {
+      .about-container {
+        grid-template-columns: 1fr;
+        padding: 2rem;
+      }
+      
+      .about-profile-image {
+        max-width: 300px;
+        margin: 0 auto;
+      }
+
+      .gallery-container {
+        height: 300px;
+      }
+
+      .gallery-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <img src="photos/me.jpeg" alt="Abhijit Suhas" class="profile-img">
+    
+    <div class='console-container'>
+      <span id='text'></span><div class='console-underscore' id='console'>&#95;</div>
+    </div>
+
+    <nav>
+      <a href="#about">About Me</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#education">Education and Achievements</a>
+      <a href="#skills">Technical Skills</a>
+      <a href="#cv">CV</a>
+    </nav>
+  </div>
+
+  <!-- About Me Section -->
+  <section id="about">
+    <h2>About Me</h2>
+    <div class="about-container">
+      <img src="photos/me.jpeg" alt="Abhijit Suhas" class="about-profile-image fade-in">
+      
+      <div class="about-content">
+        <div class="about-text fade-in">
+          <p>Hi, I'm <strong style="color: #08fdd8;">Abhijit Suhas</strong> — an 18-year-old Computer Science undergraduate at IIIT Hyderabad. I'm passionate about problem-solving, research, and building things that push the boundaries of technology.</p>
+          
+          <p>I have a strong interest in applied mathematics and statistics, and I enjoy exploring how they intersect with computer science to solve real-world problems. I'm especially drawn to deep tech, and my long-term goal is to start a company in that space — ideally something impactful (and yes, maybe even profitable enough to retire early).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section id="gallery">
+    <h2>Gallery</h2>
+    <div class="gallery-container fade-in">
+      <!-- Gallery Images -->
+      <img src="photos/5.jpeg" alt="Project 1" class="gallery-slide active" data-index="0">
+      <img src="photos/2.jpeg" alt="Project 2" class="gallery-slide" data-index="1">
+      <img src="photos/3.jpeg" alt="Project 3" class="gallery-slide" data-index="2">
+      <img src="photos/4.jpeg" alt="Project 4" class="gallery-slide" data-index="3">
+      <img src="photos/1.jpeg" alt="Project 5" class="gallery-slide" data-index="4">
+      
+      <!-- Caption for current image -->
+      <div class="gallery-caption">
+        <h3>Project Title</h3>
+        <p>Description of the project or image. Replace this text with details about each project.</p>
+      </div>
+      
+      <!-- Navigation buttons -->
+      <button class="gallery-btn prev">&larr;</button>
+      <button class="gallery-btn next">&rarr;</button>
+      
+      <!-- Navigation dots -->
+      <div class="gallery-dots">
+        <span class="gallery-dot active" data-index="0"></span>
+        <span class="gallery-dot" data-index="1"></span>
+        <span class="gallery-dot" data-index="2"></span>
+        <span class="gallery-dot" data-index="3"></span>
+        <span class="gallery-dot" data-index="4"></span>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <h2>Educational Achievements</h2>
+    <p>Add your academic journey — schools, colleges, awards, etc.</p>
+  </section>
+
+  <section id="skills">
+    <h2>Technical Skills</h2>
+    <p>List your programming languages, tools, tech stacks here.</p>
+  </section>
+
+  <section id="cv">
+    <h2>CV</h2>
+    <p>Upload or link to your résumé/CV here. You could embed a PDF or link to Google Drive.</p>
+  </section>
+
+  <script>
+    // Typing effect
+    consoleText(["Hey, I'm Abhijit Suhas."], 'text', ['#08fdd8']);
+
+    function consoleText(words, id, colors) {
+      if (colors === undefined) colors = ['#fff'];
+      var visible = true;
+      var con = document.getElementById('console');
+      var letterCount = 1;
+      var x = 1;
+      var waiting = false;
+      var target = document.getElementById(id)
+      target.setAttribute('style', 'color:' + colors[0])
+      window.setInterval(function () {
+
+        if (letterCount === 0 && waiting === false) {
+          waiting = true;
+          target.innerHTML = words[0].substring(0, letterCount)
+          window.setTimeout(function () {
+            var usedColor = colors.shift();
+            colors.push(usedColor);
+            var usedWord = words.shift();
+            words.push(usedWord);
+            x = 1;
+            target.setAttribute('style', 'color:' + colors[0])
+            letterCount += x;
+            waiting = false;
+          }, 1000)
+        } else if (letterCount === words[0].length + 1 && waiting === false) {
+          waiting = true;
+          window.setTimeout(function () {
+            x = -1;
+            letterCount += x;
+            waiting = false;
+          }, 1000)
+        } else if (waiting === false) {
+          target.innerHTML = words[0].substring(0, letterCount)
+          letterCount += x;
+        }
+      }, 120)
+      window.setInterval(function () {
+        if (visible === true) {
+          con.className = 'console-underscore hidden'
+          visible = false;
+
+        } else {
+          con.className = 'console-underscore'
+          visible = true;
+        }
+      }, 400)
+    }
+
+    // 3D hover effect for profile image
+    jQuery(document).ready(function () {
+      $('.profile-img').mousemove(function (e) {
+        var rXP = (e.pageX - this.offsetLeft - $(this).width() / 2) / 20;
+        var rYP = (e.pageY - this.offsetTop - $(this).height() / 2) / 20;
+        $(this).css('transform', `rotateX(${rYP}deg) rotateY(${rXP}deg)`);
+      });
+
+      $('.profile-img').mouseleave(function () {
+        $(this).css('transform', 'rotateX(0) rotateY(0)');
+      });
+    });
+
+    // Intersection Observer for scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    });
+
+    document.querySelectorAll('.fade-in').forEach((el) => {
+      observer.observe(el);
+    });
+
+    // Hover effect for about profile image
+    const profileImage = document.querySelector('.about-profile-image');
+    if (profileImage) {
+      profileImage.addEventListener('mousemove', (e) => {
+        const rect = profileImage.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        profileImage.style.transform = `perspective(1000px) rotateX(${(y - rect.height/2)/20}deg) rotateY(${-(x - rect.width/2)/20}deg) scale(1.05)`;
+      });
+
+      profileImage.addEventListener('mouseleave', () => {
+        profileImage.style.transform = 'perspective(1000px) rotateY(-5deg)';
+      });
+    }
+
+    // Gallery Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      let currentSlide = 0;
+      const slides = document.querySelectorAll('.gallery-slide');
+      const dots = document.querySelectorAll('.gallery-dot');
+      const prevBtn = document.querySelector('.gallery-btn.prev');
+      const nextBtn = document.querySelector('.gallery-btn.next');
+      const captions = [
+        { title: "Project 1", description: "Description of project 1. Replace with your own text." },
+        { title: "Project 2", description: "Description of project 2. Replace with your own text." },
+        { title: "Project 3", description: "Description of project 3. Replace with your own text." },
+        { title: "Project 4", description: "Description of project 4. Replace with your own text." },
+        { title: "Project 5", description: "Description of project 5. Replace with your own text." }
+      ];
+      let slideInterval;
+
+      // Function to update caption
+      function updateCaption(index) {
+        const captionTitle = document.querySelector('.gallery-caption h3');
+        const captionDesc = document.querySelector('.gallery-caption p');
+        
+        if (captionTitle && captionDesc && captions[index]) {
+          captionTitle.textContent = captions[index].title;
+          captionDesc.textContent = captions[index].description;
+        }
+      }
+
+      // Function to show a specific slide
+      function showSlide(index) {
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+        
+        currentSlide = index;
+        slides[currentSlide].classList.add('active');
+        dots[currentSlide].classList.add('active');
+        
+        updateCaption(currentSlide);
+      }
+
+      // Initialize first slide and caption
+      showSlide(0);
+      
+      // Start slideshow
+      function startSlideshow() {
+        // Clear any existing interval
+        if (slideInterval) {
+          clearInterval(slideInterval);
+        }
+        
+        // Set new interval
+        slideInterval = setInterval(() => {
+          const nextIndex = (currentSlide + 1) % slides.length;
+          showSlide(nextIndex);
+        }, 3500);
+      }
+
+      // Add click event to previous button
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function() {
+          const prevIndex = (currentSlide - 1 + slides.length) % slides.length;
+          showSlide(prevIndex);
+          
+          // Reset timer
+          startSlideshow();
+        });
+      }
+
+      // Add click event to next button
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
+          const nextIndex = (currentSlide + 1) % slides.length;
+          showSlide(nextIndex);
+          
+          // Reset timer
+          startSlideshow();
+        });
+      }
+
+      // Add click events to dots
+      dots.forEach(dot => {
+        dot.addEventListener('click', function() {
+          const dotIndex = parseInt(this.getAttribute('data-index'));
+          showSlide(dotIndex);
+          
+          // Reset timer
+          startSlideshow();
+        });
+      });
+
+      // Start the slideshow
+      startSlideshow();
+    });
+  </script>
+
+</body>
+</html>
+
+
+
+
+
+

@@ -2,164 +2,62 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Abhijit Suhas</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
-    html {
-      scroll-behavior: smooth;
-    }
-    body {
-      background-color: #fdfdfd;
-      color: #111;
-      line-height: 1.6;
-    }
-    header {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #e0e0e0, #fafafa);
-    }
-    header h1 {
-      font-size: 4rem;
-      font-weight: 700;
-      font-family: 'Playfair Display', serif;
-      color: #111;
-      margin-bottom: 30px;
-    }
-    .hero-nav {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      background: rgba(255, 255, 255, 0.8);
-      padding: 10px 20px;
-      border-radius: 30px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    .hero-nav a {
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-      font-size: 1rem;
-      font-family: 'Inter', sans-serif;
-      padding: 8px 14px;
-      border-radius: 20px;
-      transition: all 0.3s ease;
-    }
-    .hero-nav a:hover {
-      background-color: #0077ff;
-      color: white;
-    }
-    nav {
-      display: none;
-    }
-    section {
-      max-width: 800px;
-      margin: 60px auto;
-      padding: 0 20px;
-    }
-    section h2 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-    }
-    img.profile-pic {
-      width: 150px;
-      border-radius: 50%;
-      margin-bottom: 20px;
-    }
-    .gallery img {
-      width: 100%;
-      max-width: 300px;
-      margin: 10px;
-      border-radius: 12px;
-    }
-    .cv-link {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 10px 20px;
-      background-color: #0077ff;
-      color: white;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background 0.3s;
-    }
-    .cv-link:hover {
-      background-color: #005fcc;
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/about.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-  <header>
-    <h1>Abhijit Suhas</h1>
-    <div class="hero-nav">
+  <div class="hero">
+    <img src="photos/me.jpeg" alt="Abhijit Suhas" class="profile-img">
+    
+    <div class='console-container'>
+      <span id='text'></span><div class='console-underscore' id='console'>&#95;</div>
+    </div>
+
+    <nav>
       <a href="#about">About Me</a>
-      <a href="#education">Education & Achievements</a>
-      <a href="#skills">Technical Skills</a>
       <a href="#gallery">Gallery</a>
-      <a href="#hometown">Hometown</a>
+      <a href="#education">Educational Achievements</a>
+      <a href="#skills">Technical Skills</a>
       <a href="#cv">CV</a>
-      <a href="#textanalyzer">Text Analyzer</a>
-    </div>
-  </header>
+    </nav>
+  </div>
 
-  <section id="about">
-    <h2>About Me</h2>
-    <img src="your-profile.jpg" alt="Abhijit Suhas" class="profile-pic">
-    <p>Hi, I’m <strong>Abhijit Suhas</strong>, an 18-year-old Computer Science undergraduate at <strong>IIIT Hyderabad</strong>. I’m deeply passionate about problem-solving, research, and building innovative technology. I explore how math and statistics intersect with computer science to solve real-world problems. Long-term, I dream of launching a deep tech startup that’s impactful and maybe even helps me retire early. Outside the screen, I unwind with basketball — my go-to hobby to stay sharp and balanced.</p>
-  </section>
+  <!-- About Section -->
+  <section id="about" class="full-screen-section">
+    <div class="about-container">
+      <div class="glitch-container">
+        <img src="images/profile-glitch.jpg" alt="Abhijit Suhas" class="profile-glitch">
+        <div class="glitch-layers">
+          <div class="glitch-layer"></div>
+          <div class="glitch-layer"></div>
+        </div>
+      </div>
 
-  <section id="education">
-    <h2>Education & Achievements</h2>
-    <ul>
-      <li>IIIT Hyderabad — B.Tech in Computer Science (Current).</li>
-      <li>St.Joseph's Public School — High School.</li>
-      <li>Secured 889 Jee Main rank.</li>
-      <li>Secured 1528 Jee Advanced rank.</li>
-      <li>Incredibly charming and narcissistic.</li>
-    </ul>
-  </section>
+      <div class="bio-grid">
+        <div class="cyber-card">
+          <h3 class="neon-underline">// Bio Matrix</h3>
+          <div class="stats-grid">
+            <!-- Add your personal info here -->
+          </div>
+        </div>
 
-  <section id="skills">
-    <h2>Technical Skills</h2>
-    <ul>
-      <li><strong>Advanced:</strong> C, Python, Data Structures, Algorithms</li>
-      <li><strong>Intermediate:</strong> HTML, CSS, JavaScript, SQL, MongoDB</li>
-      <li><strong>Beginner:</strong> React, Node.js, TensorFlow</li>
-      <li>Also familiar with: ESP32, Bluetooth/Wi-Fi modules, ThingSpeak</li>
-    </ul>
-  </section>
+        <div class="cyber-timeline">
+          <!-- Add your timeline items here -->
+        </div>
+      </div>
 
-  <section id="gallery">
-    <h2>Gallery</h2>
-    <div class="gallery">
-      <img src="your-local-image1.jpg" alt="Local place 1">
-      <img src="your-local-image2.jpg" alt="Local place 2">
+      <div class="hologram-text">
+        <!-- Add your hologram messages here -->
+      </div>
     </div>
   </section>
 
-  <section id="hometown">
-    <h2>My Hometown</h2>
-    <p>I was born in [Your Birthplace], a place full of life, culture, and beautiful landscapes. It’s where my roots are — and where I first started dreaming about tech.</p>
-  </section>
+  <!-- Other sections remain the same -->
 
-  <section id="cv">
-    <h2>CV</h2>
-    <a href="Abhijit_Suhas_CV.pdf" class="cv-link" target="_blank">Download My CV (PDF)</a>
-  </section>
-
-  <section id="textanalyzer">
-    <h2>Text Analyzer</h2>
-    <p>[You can implement a text analyzer here later using JavaScript]</p>
-  </section>
+  <script src="scripts/main.js"></script>
+  <script src="scripts/about.js"></script>
 </body>
 </html>
