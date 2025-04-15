@@ -254,60 +254,457 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     // Intersection Observer for skill bars
     const skillObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          // Animate skill levels when they come into view
-          entry.target.parentElement.querySelector('.skill-level').style.width = 
-            entry.target.parentElement.querySelector('.skill-level').getAttribute('style').split(':')[1];
-        }
-      });
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Animate skill levels when they come into view
+                const skillLevel = entry.target.querySelector('.skill-level');
+                if (skillLevel) {
+                    const targetWidth = skillLevel.style.width;
+                    // First set to 0
+                    skillLevel.style.width = '0%';
+                    // Then animate to target width
+                    setTimeout(() => {
+                        skillLevel.style.width = targetWidth;
+                    }, 100);
+                }
+            }
+        });
     }, { threshold: 0.5 });
-  
+
     // Observe all skill bars
     document.querySelectorAll('.skill-bar').forEach((el) => {
-      // Initially set width to 0
-      el.querySelector('.skill-level').style.width = '0%';
-      skillObserver.observe(el);
+        skillObserver.observe(el);
     });
     
-    // Add hover effect for skill cards
-    document.querySelectorAll('.skill-card').forEach(card => {
-      card.addEventListener('mouseenter', function() {
-        this.style.transform = 'translateY(-10px)';
-        this.style.boxShadow = '0 15px 30px rgba(8, 253, 216, 0.15)';
-      });
-      
-      card.addEventListener('mouseleave', function() {
-        this.style.transform = 'translateY(-5px)';
-        this.style.boxShadow = '0 10px 20px rgba(8, 253, 216, 0.1)';
-      });
-    });
-  });
+    // CV download button animation
+    const cvButton = document.querySelector('.cv-download-btn');
+    if (cvButton) {
+        // Add pulse animation on page load
+        const cvObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Add a subtle pulse animation when the button comes into view
+                    cvButton.style.animation = 'pulse 2s infinite';
+                    
+                    // Add keyframes for pulse animation if not already in the document
+                    if (!document.querySelector('style#cv-animations')) {
+                        const style = document.createElement('style');
+                        style.id = 'cv-animations';
+                        style.textContent = `
+                            @keyframes pulse {
+                                0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(8, 253, 216, 0.4); }
+                                70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(8, 253, 216, 0); }
+                                100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(8, 253, 216, 0); }
+                            }
+                            
+                            @keyframes downloadStart {
+                                0% { transform: translateY(0); }
+                                50% { transform: translateY(5px); }
+                                100% { transform: translateY(0); }
+                            }
+                        `;
+                        document.head.appendChild(style);
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        cvObserver.observe(cvButton);
+        
+        // Add click animation
+        cvButton.addEventListener('click', function() {
+            // Change the icon to indicate download started
+            const downloadIcon = this.querySelector('.download-icon');
+            if (downloadIcon) {
+                downloadIcon.textContent = '✓';
+                downloadIcon.style.color = '#08fdd8';
+                
+                // Add a download animation
+                this.style.animation = 'downloadStart 0.5s ease';
+                
+                // Reset after animation completes
+                setTimeout(() => {
+                    downloadIcon.textContent = '↓';
+                    this.style.animation = 'pulse 2s infinite';
+                }, 2000);
+            }
+        });
+        
+        // Stop the pulse animation on hover and replace with the hover effect
+        cvButton.addEventListener('mouseenter', function() {
+            this.style.animation = 'none';
+        });
+        
+        // Resume the pulse animation when not hovering
+        cvButton.addEventListener('mouseleave', function() {
+            this.style.animation = 'pulse 2s infinite';
+        });
+    }
+});
 
-  // Skills section animation
+// Add this to your existing script.js file
 document.addEventListener('DOMContentLoaded', function() {
-    // Intersection Observer for skill bars
-    const skillObserver = new IntersectionObserver((entries) => {
+    const cvButton = document.querySelector('.cv-download-btn');
+    
+    if (cvButton) {
+        cvButton.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent default download behavior
+            
+            // Open PDF in new tab
+            window.open(this.getAttribute('href'), '_blank');
+        });
+    }
+});
+
+// User Interaction Tracking System
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize tracking system
+    initializeTrackingSystem();
+    
+    // Log initial page view
+    logPageView();
+  });
+  
+  function initializeTrackingSystem() {
+    // Track all click events
+    document.addEventListener('click', function(event) {
+      logClickEvent(event);
+    }, true); // Use capture phase to catch all events
+    
+    // Track element visibility for page views
+    setupVisibilityTracking();
+  }
+  
+  function logClickEvent(event) {
+    const timestamp = new Date().getTime();
+    const eventType = 'click';
+    const targetElement = event.target;
+    
+    // Determine the type of element clicked
+    let elementType = getElementType(targetElement);
+    
+    // Log to console in the required format
+    console.log(`${timestamp}, ${eventType}, ${elementType}`);
+  }
+  
+  function logPageView() {
+    const timestamp = new Date().getTime();
+    const eventType = 'view';
+    const elementType = 'page';
+    
+    // Log to console in the required format
+    console.log(`${timestamp}, ${eventType}, ${elementType}`);
+  }
+  
+  function setupVisibilityTracking() {
+    // Use Intersection Observer to track when elements come into view
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          // Animate skill levels when they come into view
-          const skillLevel = entry.target.querySelector('.skill-level');
-          if (skillLevel) {
-            const targetWidth = skillLevel.style.width;
-            // First set to 0
-            skillLevel.style.width = '0%';
-            // Then animate to target width
-            setTimeout(() => {
-              skillLevel.style.width = targetWidth;
-            }, 100);
-          }
+          const timestamp = new Date().getTime();
+          const eventType = 'view';
+          const elementType = getElementType(entry.target);
+          
+          // Log to console in the required format
+          console.log(`${timestamp}, ${eventType}, ${elementType}`);
+          
+          // Once logged, stop observing this element
+          observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.5 });
-  
-    // Observe all skill bars
-    document.querySelectorAll('.skill-bar').forEach((el) => {
-      skillObserver.observe(el);
+    }, { threshold: 0.5 }); // Element is considered visible when 50% is in viewport
+    
+    // Track visibility of important elements
+    const elementsToTrack = [
+      // Profile section
+      document.querySelector('.profile-img'),
+      document.querySelector('.about-profile-image'),
+      document.querySelector('.about-text'),
+      
+      // Gallery section
+      document.querySelector('.gallery-container'),
+      ...Array.from(document.querySelectorAll('.gallery-slide')),
+      
+      // Education section
+      ...Array.from(document.querySelectorAll('.education-subsection')),
+      
+      // Skills section
+      document.querySelector('.skills-container'),
+      ...Array.from(document.querySelectorAll('.skill-card')),
+      
+      // CV section
+      document.querySelector('.cv-container')
+    ].filter(element => element !== null); // Filter out any null elements
+    
+    // Start observing each element
+    elementsToTrack.forEach(element => {
+      observer.observe(element);
     });
+  }
+  
+  function getElementType(element) {
+    // Check for specific elements based on classes, IDs, or tag names
+    
+    // Check for profile image
+    if (element.classList.contains('profile-img') || element.classList.contains('about-profile-image')) {
+      return 'profile-image';
+    }
+    
+    // Check for gallery images
+    if (element.classList.contains('gallery-slide')) {
+      return 'gallery-image';
+    }
+    
+    // Check for gallery navigation
+    if (element.classList.contains('gallery-btn')) {
+      return element.classList.contains('prev') ? 'gallery-prev-button' : 'gallery-next-button';
+    }
+    
+    if (element.classList.contains('gallery-dot')) {
+      return 'gallery-navigation-dot';
+    }
+    
+    // Check for skill cards
+    if (element.classList.contains('skill-card')) {
+      const skillName = element.querySelector('.skill-name');
+      return skillName ? `skill-card-${skillName.textContent}` : 'skill-card';
+    }
+    
+    // Check for CV download button
+    if (element.classList.contains('cv-download-btn')) {
+      return 'cv-download-button';
+    }
+    
+    // Check for navigation links
+    if (element.tagName === 'A' && element.parentElement.tagName === 'NAV') {
+      return `navigation-link-${element.textContent.trim()}`;
+    }
+    
+    // Check for text paragraphs
+    if (element.tagName === 'P') {
+      const parentSection = getParentSection(element);
+      return `text-paragraph-in-${parentSection}`;
+    }
+    
+    // Default: use tag name and any available identifier
+    let elementType = element.tagName.toLowerCase();
+    
+    if (element.id) {
+      elementType += `#${element.id}`;
+    } else if (element.className) {
+      elementType += `.${element.className.split(' ')[0]}`;
+    }
+    
+    return elementType;
+  }
+  
+  function getParentSection(element) {
+    // Find the parent section of an element
+    let current = element;
+    while (current && current !== document.body) {
+      if (current.tagName === 'SECTION' && current.id) {
+        return current.id;
+      }
+      current = current.parentElement;
+    }
+    return 'unknown-section';
+  }
+
+  // Text Analyzer Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const analyzeBtn = document.getElementById('analyze-btn');
+    const textInput = document.getElementById('text-input');
+    const resultsContainer = document.querySelector('.analyzer-results');
+    
+    // Lists of pronouns, prepositions, and indefinite articles
+    const pronouns = [
+      'i', 'me', 'my', 'mine', 'myself',
+      'you', 'your', 'yours', 'yourself', 'yourselves',
+      'he', 'him', 'his', 'himself',
+      'she', 'her', 'hers', 'herself',
+      'it', 'its', 'itself',
+      'we', 'us', 'our', 'ours', 'ourselves',
+      'they', 'them', 'their', 'theirs', 'themselves',
+      'who', 'whom', 'whose', 'which', 'what',
+      'this', 'that', 'these', 'those'
+    ];
+    
+    const prepositions = [
+      'about', 'above', 'across', 'after', 'against', 'along', 'amid', 'among',
+      'around', 'at', 'before', 'behind', 'below', 'beneath', 'beside', 'between',
+      'beyond', 'by', 'concerning', 'considering', 'despite', 'down', 'during',
+      'except', 'for', 'from', 'in', 'inside', 'into', 'like', 'near', 'of', 'off',
+      'on', 'onto', 'out', 'outside', 'over', 'past', 'regarding', 'round', 'since',
+      'through', 'throughout', 'to', 'toward', 'under', 'underneath', 'until', 'unto',
+      'up', 'upon', 'with', 'within', 'without'
+    ];
+    
+    const indefiniteArticles = ['a', 'an'];
+    
+    if (analyzeBtn && textInput) {
+      analyzeBtn.addEventListener('click', function() {
+        const text = textInput.value;
+        
+        if (text.trim().length === 0) {
+          alert('Please enter some text to analyze.');
+          return;
+        }
+        
+        // Calculate basic statistics
+        const basicStats = calculateBasicStats(text);
+        displayBasicStats(basicStats);
+        
+        // Tokenize and analyze text
+        const words = tokenizeText(text);
+        
+        // Count pronouns
+        const pronounCounts = countWordsByCategory(words, pronouns);
+        displayWordCounts(pronounCounts, 'pronoun-stats', 'Pronoun');
+        
+        // Count prepositions
+        const prepositionCounts = countWordsByCategory(words, prepositions);
+        displayWordCounts(prepositionCounts, 'preposition-stats', 'Preposition');
+        
+        // Count indefinite articles
+        const articleCounts = countWordsByCategory(words, indefiniteArticles);
+        displayWordCounts(articleCounts, 'article-stats', 'Article');
+        
+        // Show results with animation
+        resultsContainer.classList.add('show');
+        
+        // Scroll to results
+        resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+    
+    function calculateBasicStats(text) {
+      const letterCount = (text.match(/[a-zA-Z]/g) || []).length;
+      const wordCount = (text.match(/\b\w+\b/g) || []).length;
+      const spaceCount = (text.match(/\s/g) || []).length;
+      const newlineCount = (text.match(/\n/g) || []).length;
+      const specialSymbolCount = (text.match(/[^\w\s]/g) || []).length;
+      
+      return {
+        letters: letterCount,
+        words: wordCount,
+        spaces: spaceCount,
+        newlines: newlineCount,
+        specialSymbols: specialSymbolCount
+      };
+    }
+    
+    function tokenizeText(text) {
+      // Convert to lowercase and split by non-word characters
+      return text.toLowerCase()
+        .match(/\b\w+\b/g) || [];
+    }
+    
+    function countWordsByCategory(words, categoryWords) {
+      const counts = {};
+      
+      // Initialize counts for all category words
+      categoryWords.forEach(word => {
+        counts[word] = 0;
+      });
+      
+      // Count occurrences
+      words.forEach(word => {
+        if (categoryWords.includes(word.toLowerCase())) {
+          counts[word.toLowerCase()]++;
+        }
+      });
+      
+      // Filter out words with zero count
+      const filteredCounts = {};
+      Object.keys(counts).forEach(word => {
+        if (counts[word] > 0) {
+          filteredCounts[word] = counts[word];
+        }
+      });
+      
+      return filteredCounts;
+    }
+    
+    function displayBasicStats(stats) {
+      const container = document.getElementById('basic-stats');
+      if (!container) return;
+      
+      container.innerHTML = '';
+      
+      const statItems = [
+        { label: 'Letters', value: stats.letters },
+        { label: 'Words', value: stats.words },
+        { label: 'Spaces', value: stats.spaces },
+        { label: 'Newlines', value: stats.newlines },
+        { label: 'Special Symbols', value: stats.specialSymbols }
+      ];
+      
+      statItems.forEach(item => {
+        const statElement = document.createElement('div');
+        statElement.className = 'stat-item';
+        statElement.innerHTML = `
+          <span class="stat-label">${item.label}:</span>
+          <span class="stat-value">${item.value}</span>
+        `;
+        container.appendChild(statElement);
+      });
+    }
+    
+    function displayWordCounts(counts, containerId, categoryName) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      
+      container.innerHTML = '';
+      
+      // Check if there are any counts to display
+      if (Object.keys(counts).length === 0) {
+        container.innerHTML = `<p>No ${categoryName.toLowerCase()}s found in the text.</p>`;
+        return;
+      }
+      
+      // Create table
+      const table = document.createElement('table');
+      table.className = `${categoryName.toLowerCase()}-table`;
+      
+      // Add table header
+      const thead = document.createElement('thead');
+      thead.innerHTML = `
+        <tr>
+          <th>${categoryName}</th>
+          <th>Count</th>
+        </tr>
+      `;
+      table.appendChild(thead);
+      
+      // Add table body
+      const tbody = document.createElement('tbody');
+      
+      // Sort by count (descending)
+      const sortedWords = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+      
+      sortedWords.forEach(word => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${word}</td>
+          <td>${counts[word]}</td>
+        `;
+        tbody.appendChild(row);
+      });
+      
+      table.appendChild(tbody);
+      container.appendChild(table);
+    }
+    
+    // Add animation for the analyze button
+    const analyzeButton = document.querySelector('.analyze-btn');
+    if (analyzeButton) {
+      analyzeButton.addEventListener('mouseenter', function() {
+        this.querySelector('.analyze-icon').textContent = '🔍';
+      });
+      
+      analyzeButton.addEventListener('mouseleave', function() {
+        this.querySelector('.analyze-icon').textContent = '⚡';
+      });
+    }
   });
   

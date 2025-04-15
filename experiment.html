@@ -22,6 +22,7 @@
       <a href="#gallery">Gallery</a>
       <a href="#education">Education and Achievements</a>
       <a href="#skills">Technical Skills</a>
+      <a href="#text-analyzer">Text Analyzer</a>
       <a href="#cv">CV</a>
     </nav>
   </div>
@@ -105,7 +106,7 @@
           </div>
           <div class="skill-name">Python</div>
           <div class="skill-bar">
-            <div class="skill-level" style="width: 90%"></div>
+            <div class="skill-level" style="width: 85%"></div>
           </div>
         </div>
         
@@ -115,7 +116,7 @@
           </div>
           <div class="skill-name">C</div>
           <div class="skill-bar">
-            <div class="skill-level" style="width: 85%"></div>
+            <div class="skill-level" style="width: 95%"></div>
           </div>
         </div>
         
@@ -125,7 +126,7 @@
           </div>
           <div class="skill-name">C++</div>
           <div class="skill-bar">
-            <div class="skill-level" style="width: 80%"></div>
+            <div class="skill-level" style="width: 95%"></div>
           </div>
         </div>
         
@@ -135,7 +136,7 @@
           </div>
           <div class="skill-name">Java</div>
           <div class="skill-bar">
-            <div class="skill-level" style="width: 75%"></div>
+            <div class="skill-level" style="width: 80%"></div>
           </div>
         </div>
         
@@ -145,7 +146,7 @@
           </div>
           <div class="skill-name">JavaScript</div>
           <div class="skill-bar">
-            <div class="skill-level" style="width: 80%"></div>
+            <div class="skill-level" style="width: 75%"></div>
           </div>
         </div>
         
@@ -155,7 +156,7 @@
           </div>
           <div class="skill-name">HTML</div>
           <div class="skill-bar">
-            <div class="skill-level" style="width: 95%"></div>
+            <div class="skill-level" style="width: 80%"></div>
           </div>
         </div>
         
@@ -165,7 +166,7 @@
           </div>
           <div class="skill-name">CSS</div>
           <div class="skill-bar">
-            <div class="skill-level" style="width: 85%"></div>
+            <div class="skill-level" style="width: 80%"></div>
           </div>
         </div>
         
@@ -175,7 +176,7 @@
           </div>
           <div class="skill-name">Assembly</div>
           <div class="skill-bar">
-            <div class="skill-level" style="width: 70%"></div>
+            <div class="skill-level" style="width: 85%"></div>
           </div>
         </div>
       </div>
@@ -185,11 +186,53 @@
       </div>
     </div>
   </section>
-  
+
+  <section id="text-analyzer">
+    <h2>Text Analyzer</h2>
+    <div class="analyzer-container fade-in">
+      <div class="analyzer-description">
+        <p>Analyze any text with this tool. Enter or paste your text (10,000+ words supported) and get detailed statistics about letters, words, spaces, and more.</p>
+      </div>
+      
+      <div class="analyzer-input">
+        <textarea id="text-input" placeholder="Enter or paste your text here (10,000+ words supported)..."></textarea>
+        <button id="analyze-btn" class="analyze-btn">
+          <span class="analyze-icon">⚡</span> Analyze Text
+        </button>
+      </div>
+      
+      <div class="analyzer-results">
+        <div class="result-section">
+          <h3>Basic Statistics</h3>
+          <div id="basic-stats" class="stats-container"></div>
+        </div>
+        
+        <div class="result-section">
+          <h3>Pronouns</h3>
+          <div id="pronoun-stats" class="stats-container"></div>
+        </div>
+        
+        <div class="result-section">
+          <h3>Prepositions</h3>
+          <div id="preposition-stats" class="stats-container"></div>
+        </div>
+        
+        <div class="result-section">
+          <h3>Indefinite Articles</h3>
+          <div id="article-stats" class="stats-container"></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section id="cv">
     <h2>CV</h2>
-    <p>Upload or link to your résumé/CV here. You could embed a PDF or link to Google Drive.</p>
+    <div class="cv-container fade-in">
+      <p>View my curriculum vitae to learn more about my education, experience, and qualifications.</p>
+      <a href="CV.pdf" download class="cv-download-btn">
+        <span class="download-icon">↓</span> View CV
+      </a>
+    </div>
   </section>
 
   <script src="script.js"></script>
